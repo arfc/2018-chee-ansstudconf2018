@@ -1,11 +1,2 @@
-ANS Transactions LaTeX template
-===============================
-
-
-Compiling
-----------------
-
-    pdflatex example
-    bibtex example
-    pdflatex example
-    pdflatex example
+ANS student conference 2018 paper 
+Title: Numerical Experiments for testing Demand-Driven Deployment Algorithms
