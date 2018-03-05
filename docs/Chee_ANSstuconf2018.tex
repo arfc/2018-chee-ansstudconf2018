@@ -1,7 +1,7 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Numerical Experiments for testing Demand-Driven Deployment Algorithms}
-\author{Gwendolyn Chee, Jin Whan Bae and Kathryn D. Huff}
+\author{Gwendolyn Chee, Jin Whan Bae, and Kathryn D. Huff}
 
 \institute{
 Dept. of Nuclear, Plasma and Radiological Engineering, University of Illinois at Urbana-Champaign \\
@@ -30,24 +30,52 @@ gchee2@illinois.edu
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-For many fuel cycle simulators, it is currently up to the user to define a deployment scheme for each component of the fuel cycle to avoid gaps in the supply chain. This same goal could also be achieved by setting all the facility's capacities to infinity. However, this does not reflect real-world conditions \cite{bae_numerical_2018}. To address this gap in capability of fuel cycle simulators, the Demand-Driven \Cycamore Archetype project (NEUP-FY16-10512) is developing prediction algorithms to give \Cyclus demand-driven deployment capabilities. This means that \Cyclus will have the capability to deploy supporting fuel cycle facilities to meet front-end and back-end demands of the fuel cycle \cite{bae_numerical_2018}. The project is a collaboration between University of Illinois Urbana-Champaign and University of South Carolina. This paper will discuss the numerical experiments required to test the various prediction algorithms designed for the project. In particular, the non-optimizing algorithm. 
+For many fuel cycle simulators, it is currently up to the user to define a 
+deployment scheme for each component of the fuel cycle to avoid gaps in the 
+supply chain. This same goal could also be achieved by setting all the 
+facility's capacities to infinity. However, this does not reflect real-world 
+conditions \cite{bae_numerical_2018}. To address this gap in capability of fuel 
+cycle simulators, the Demand-Driven \Cycamore Archetype project 
+(NEUP-FY16-10512) is developing prediction algorithms to give \Cyclus 
+demand-driven deployment capabilities. This means that \Cyclus will have the 
+capability to deploy supporting fuel cycle facilities to meet front-end and 
+back-end demands of the fuel cycle \cite{bae_numerical_2018}. The project is a 
+collaboration between the University of Illinois Urbana-Champaign and the 
+University of South Carolina. This paper will discuss the numerical experiments 
+required to test the various prediction algorithms designed for the project. In 
+particular, this work describes tests for the non-optimizing algorithm. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Background: \Cyclus}
 \Cyclus \cite{carlsen_cyclus_2014} is an agent-based extensible framework for modeling flow of material through user-defined nuclear fuel cycles \cite{huff_fundamental_2016}. \Cycamore \cite{carlsen_cycamore_2014} is an additional modules repository in the \Cyclus ecosystem that provides basic libraries to represent process physics of various components of the nuclear fuel cycle (ie. mining, fuel enrichment, reactor) \cite{huff_extensions_2014}. Each library is an archetype. 
 
-\Cyclus simulations are composed of discrete time steps. Each time step is subdivided into phases. The time step execution phases for \Cyclus is illustrated in Figure \ref{fig:timeexecution}. 
+\Cyclus simulations are composed of discrete time steps. Each time step is 
+subdivided into phases. The time step execution phases for \Cyclus are 
+illustrated in Figure \ref{fig:timeexecution}. 
+Phases labeled kernel have required actions that occur and phases labeled agent are executed by individual agents. Agent refers to specific facilities within the simulation. What happens in "Tick" and "Tock" are unique to each archetype \cite{bae_numerical_2018}. 
 
 \begin{figure}[ht] % replace 't' with 'b' to force it to be on the bottom
 	\centering
 	\includegraphics[width=0.29\textwidth]{timeexecution}
-	\caption{Each time step in \Cyclus follows the five phases in order. Phases labeled kernel have required actions that occur and phases labeled agent are executed by individual agents. Agent refers to specific facilities within the simulation. What happens in "Tick" and "Tock" are unique to each archetype \cite{bae_numerical_2018}. }
+\caption{Each time step in \Cyclus follows the five phases in order.}
 	\label{fig:timeexecution}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Background: Demand-Driven Deployment Algorithms}
-Nuclear fuel cycle simulation scenarios are described as constrained objective functions. This means that the goal of the simulations are to optimize an objective function with respect to constraints on certain variables. For nuclear fuel cycle simulations, examples for the objective function are percentage energy growth and uranium utilization percentage.  Examples for constraints are the availability of new nuclear fuel cycle technology such as specific types of reprocessing. This necessitates demand responsive deployment capabilities to be added to fuel cycle simulation logic. The simulator should have the capabilities to deploy supporting fuel cycle facilities to enable a demand to be met. For example, for a once through fuel cycle with an energy growth demand of 1\% per year, the simulator should have the capabilities to optimally deploy supporting facilities such as a mine, enrichment facility and reactor to meet the demand \cite{huff_current_2017}. 
+Nuclear fuel cycle simulation scenarios are typically best posed as constrained 
+objective functions. This means that the goal of a simulation is to 
+optimize an objective function with respect to constraints on certain 
+variables. For nuclear fuel cycle simulations, minimizing unmet electricity 
+demand or maximizing uranium utilization are typical objective functions. 
+Typical constraints might limit the availability of new nuclear fuel cycle 
+technology such as specific types of reprocessing. This necessitates demand 
+responsive deployment capabilities to be added to fuel cycle simulation logic. 
+The simulator should have the capabilities to deploy supporting fuel cycle 
+facilities to enable a demand to be met. For example, for a once through fuel 
+cycle with an energy growth demand of 1\% per year, the simulator should have 
+the capabilities to optimally deploy supporting facilities such as a mine, 
+enrichment facility and reactor to meet the demand \cite{huff_current_2017}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Method: Prediction Algorithms}
@@ -57,19 +85,43 @@ The non-optimizing method type is the most basic optimization algorithm. It pred
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Method: Tests}
-In Best Practices of Scientific computing \cite{wilson_best_2014}, Wilson et al highlights the fact that similar to building experimental apparatus, constructing software requires careful building and validation to ensure their reliability. Furthermore, Wilson et al discusses that because software is commonly reused, it can result in a negative long term effect on the integrity of the group's work if a bug is not found. 
+In Best Practices of Scientific computing \cite{wilson_best_2014}, Wilson et 
+al. highlights the fact that similar to building experimental apparatus, 
+constructing software requires careful building and validation to ensure their 
+reliability. Furthermore, Wilson et al discusses that because software is 
+commonly reused, it can result in a negative long term effect on the integrity 
+of the group's work if a bug is not found. 
 
-An important practice for verification and maintenance of code is to write and run tests \cite{wilson_best_2014}. Automated tests ensure that a piece of code is functioning the way it is intended. The most basic test is the unit test which refers to the testing of a single function \cite{wilson_best_2014}. For the algorithms, unit tests will be written for each section of code to ensure all components of the code are reliable. Testing may not be perfect at capturing all the bugs, however, it minimizes them. 
+An important practice for verification and maintenance of code is to write and 
+run tests. Automated tests ensure that a piece of code 
+is functioning the way it is intended. The most basic test is the unit test 
+which refers to the testing of a single function \cite{wilson_best_2014}. For 
+the demand-driven deployment algorithms, unit tests will be written for each 
+section of code to ensure all components of the code are reliable. Testing may 
+not be perfect at capturing all the bugs; however, it minimizes them. 
 
-The goal is for the demand-driven deployment algorithms to be integrated with the \Cyclus framework in the long term and used to optimize simulations of transition analyses. Therefore, if the algorithms are not well tested and have logic flaws or bugs, this would result in inaccuracies with the conclusions drawn from the transition analyses simulations. And further compromise any experiments that use the algorithm in the future \cite{wilson_best_2014}. 
+The goal is for the demand-driven deployment algorithms to be integrated with 
+the \Cyclus framework in the long term and used to optimize simulations of 
+transition analyses. Therefore, if the algorithms are not well tested, they may 
+have undiagnosed logic flaws or bugs. This would result in inaccuracies with 
+the conclusions drawn from the transition analyses simulations and further 
+compromise any experiments that use the algorithm in the future 
+\cite{wilson_best_2014}. 
 
-\noindent \textbf{Test Example} 
+\subsection{Test Example} 
 
-A simple once through fuel cycle scenario is sufficient to verify the non-optimizing algorithm. The scenario used has only four facilities. Figure \ref{fig:materialflow} depicts the material flow between the four facilities.   
+A simple once through fuel cycle scenario is sufficient to verify the 
+non-optimizing algorithm. The scenario used has only four facilities. Figure 
+\ref{fig:materialflow} depicts the material flow between the four facilities.   
+In it, the bracketed values are demands calculated in the algorithm. The 
+Reactor demands \textit{x} amount of fuel which translates to \textit{x} demand 
+from enrichment and \textit{ax} demand from source, taking into account 
+enrichment losses \cite{bae_numerical_2018}.
+
 \begin{figure}[ht] % replace 't' with 'b' to force it to be on the bottom
 	\centering
 	\includegraphics[width=0.48\textwidth]{materialflow}
-	\caption{Simple demand flow of materials. The bracketed values are demands calculated in the algorithm. The Reactor demands \textit{x} amount of fuel which translates to \textit{x} demand from enrichment and \textit{ax} demand from source, taking into account enrichment losses \cite{bae_numerical_2018}.}
+\caption{Simple demand flow of materials.}
 	\label{fig:materialflow}
 \end{figure}
 
@@ -156,8 +208,15 @@ The third test example checks if an enrichment facility is decommissioned when t
 Each of these tests will be implemented for each commodity in the supply chain. Both the Demand-Driven Deployment algorithms and tests are implemented in the Python language.   
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section{Conclusions}
-%The above sections outline the types of numerical experiments that will be implemented to test the non-optimizing prediction algorithm for the Demand-Driven \Cycamore Archetype project. The implementation of these tests are important to ensure the reliability of the prediction algorithms.    
+\section{Conclusions}
+The above sections outline the types of numerical experiments that will be 
+implemented to test the non-optimizing prediction algorithm for the 
+Demand-Driven \Cycamore Archetype project. Implementation of these and further 
+tests will ensure the reliability of the prediction algorithms.  
+At present, iterative feedback between the testing team at the University of 
+Illinois and the archetype development team at the University of South Carolina 
+is driving targetted development of the non-optimizing agent archetype so that 
+it will successfully pass the tests.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
