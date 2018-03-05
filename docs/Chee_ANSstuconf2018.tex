@@ -150,7 +150,7 @@ enrichment losses \cite{bae_numerical_2018}.
 
 A unit test is written for each function of the algorithm to test if its output matches the analytical solution for the specified test scenario \cite{bae_numerical_2018}. To ensure that the deployment and decommissioning of the facilities is appropriate, the tick phase must be working correctly. There are three main types of tests that will ensure this. The first test is that the difference between demand and supply for each commodity is below the capacity of its respective facility for all time steps. The second test is that the correct number of facilities are deployed at each time step. The third test is that the correct number of facilities are decommissioned at each time step.  
 
-An example for each type of test described above is for the enrichment facility whose output commodity is fuel. Table \ref{tab:parameters} describes the scenario parameters that are relevant for both example tests.  
+An example for each type of test described above is given for an enrichment facility whose output commodity is fuel. Table \ref{tab:parameters} describes the scenario parameters that are relevant for the example tests.  
 
 The first test example checks if the difference between enrichment facility fuel supply and reactor fuel demand is within plus-minus the output capacity of one enrichment facility for every time step. For this test, a reactor is deployed at time steps 2 and 3 and a fuel supply of 100kg is given at the initial time step. Since each reactor has 3 assemblies per core, a fuel demand of 300kg is required per reactor at the time step it is deployed. The analytical solution for this test is shown in table \ref{tab:test1}. 
 
